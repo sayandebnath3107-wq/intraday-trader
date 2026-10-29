@@ -1,79 +1,114 @@
-# Backtest (last ~60 trading days, real NSE 5-min data)
+# Backtest: Gap Fade strategy
 
-Same engine as live. News score is 0 (no historical headlines). Fills = next bar open +/- 0.03% slippage, full Zerodha-style charges deducted.
+Rules: on days NIFTY opens <= +0.0% vs yesterday, short up to 4 stocks that opened >= 0.75% above yesterday's close (biggest gaps first), 5x intraday leverage on Rs 100,000, 1% stop-loss, square-off 15:10. Full charges + 0.03% slippage per fill.
 
-| Metric | Value |
+## Long-run check (daily data, fixed Rs 1 lakh base)
+
+Rules were chosen using 2016-2023 only. 2024-2026 is the out-of-sample check.
+
+| Metric | 2016-2023 (chosen on) | 2024-2026 (unseen) |
+|---|---|---|
+| Trading days | 1771 | 699 |
+| Total net P&L | Rs 437,098 | Rs 127,120 |
+| Average per trading day | Rs 247 | Rs 182 |
+| Days with a setup | 18% | 24% |
+| Average on days it traded | Rs 1,366 | Rs 761 |
+| Winning days (when traded) | 49% | 51% |
+| Days >= Rs 5,000 | 70 | 31 |
+| Best day | Rs 80,023 | Rs 15,463 |
+| Worst day | Rs -5,654 | Rs -5,657 |
+| Max drawdown | Rs 29,364 | Rs 39,719 |
+
+| Year | Net P&L | Days traded | Winning days |
+|---|---|---|---|
+| 2016 | Rs 16,528 | 11 | 55% |
+| 2017 | Rs 68,465 | 39 | 62% |
+| 2018 | Rs 46,119 | 43 | 44% |
+| 2019 | Rs 51,261 | 50 | 42% |
+| 2020 | Rs 51,420 | 45 | 44% |
+| 2021 | Rs 74,109 | 40 | 57% |
+| 2022 | Rs -2,687 | 43 | 44% |
+| 2023 | Rs 131,884 | 49 | 53% |
+| 2024 | Rs 42,580 | 44 | 61% |
+| 2025 | Rs 55,648 | 55 | 51% |
+| 2026 | Rs 28,893 | 68 | 44% |
+
+## Last ~60 days, replayed through the live engine (5-min bars)
+
+| Metric | Last 60 days |
 |---|---|
-| Days | 60 |
-| Total net P&L | Rs -41,207 |
-| Average per day | Rs -687 |
-| Days >= Rs 5,000 | 0 |
-| Profitable days | 20 |
-| Losing days | 40 |
-| Best / worst day | Rs 3,803 / Rs -3,128 |
-| Max drawdown | Rs 45,070 |
-| Trades / win rate | 328 / 37% |
-| Total charges paid | Rs 25,023 |
+| Trading days | 60 |
+| Total net P&L | Rs -524 |
+| Average per trading day | Rs -9 |
+| Days with a setup | 33% |
+| Average on days it traded | Rs -26 |
+| Winning days (when traded) | 45% |
+| Days >= Rs 5,000 | 3 |
+| Best day | Rs 7,529 |
+| Worst day | Rs -4,913 |
+| Max drawdown | Rs 15,644 |
 
 | Date | Trades | Net | Equity | Note |
 |---|---|---|---|---|
-| 2026-08-04 | 4 | 207 | 100,207 | end of day |
-| 2026-08-05 | 6 | -455 | 99,752 | end of day |
-| 2026-08-06 | 6 | -3,128 | 96,624 | daily loss limit hit (-2710) |
-| 2026-08-07 | 5 | 3,803 | 100,427 | end of day |
-| 2026-08-10 | 6 | -1,514 | 98,913 | end of day |
-| 2026-08-11 | 6 | -74 | 98,839 | end of day |
-| 2026-08-12 | 5 | -1,745 | 97,093 | end of day |
-| 2026-08-13 | 6 | -2,317 | 94,776 | end of day |
-| 2026-08-14 | 6 | -661 | 94,116 | end of day |
-| 2026-08-17 | 5 | 1,862 | 95,978 | end of day |
-| 2026-08-18 | 5 | 2,884 | 98,862 | end of day |
-| 2026-08-19 | 6 | -602 | 98,261 | end of day |
-| 2026-08-20 | 5 | -3,037 | 95,224 | daily loss limit hit (-2676) |
-| 2026-08-21 | 6 | -2,181 | 93,043 | end of day |
-| 2026-08-24 | 5 | -619 | 92,424 | end of day |
-| 2026-08-25 | 6 | -1,337 | 91,088 | end of day |
-| 2026-08-26 | 5 | 3,347 | 94,434 | end of day |
-| 2026-08-27 | 6 | 304 | 94,739 | end of day |
-| 2026-08-28 | 6 | -2,744 | 91,995 | daily loss limit hit (-2512) |
-| 2026-08-31 | 5 | -2,912 | 89,082 | daily loss limit hit (-2560) |
-| 2026-09-01 | 5 | -2,930 | 86,153 | daily loss limit hit (-2572) |
-| 2026-09-02 | 5 | -2,979 | 83,174 | daily loss limit hit (-2573) |
-| 2026-09-03 | 5 | -2,928 | 80,246 | daily loss limit hit (-2522) |
-| 2026-09-04 | 6 | -2,540 | 77,706 | end of day |
-| 2026-09-07 | 6 | -887 | 76,819 | end of day |
-| 2026-09-08 | 6 | -2,766 | 74,053 | daily loss limit hit (-2523) |
-| 2026-09-09 | 6 | -382 | 73,670 | end of day |
-| 2026-09-10 | 5 | -2,787 | 70,884 | daily loss limit hit (-2617) |
-| 2026-09-11 | 5 | -1,673 | 69,211 | end of day |
-| 2026-09-15 | 6 | 2,454 | 71,665 | end of day |
-| 2026-09-16 | 6 | -1,648 | 70,017 | end of day |
-| 2026-09-17 | 6 | -2,246 | 67,771 | end of day |
-| 2026-09-18 | 6 | 94 | 67,864 | end of day |
-| 2026-09-21 | 4 | -704 | 67,160 | end of day |
-| 2026-09-22 | 4 | -192 | 66,967 | end of day |
-| 2026-09-23 | 6 | 572 | 67,539 | end of day |
-| 2026-09-24 | 6 | 802 | 68,341 | end of day |
-| 2026-09-25 | 6 | -2,163 | 66,178 | end of day |
-| 2026-09-28 | 5 | 1,486 | 67,665 | end of day |
-| 2026-09-29 | 5 | -2,848 | 64,817 | daily loss limit hit (-2542) |
-| 2026-09-30 | 6 | -1,341 | 63,476 | end of day |
-| 2026-10-01 | 6 | 154 | 63,630 | end of day |
-| 2026-10-05 | 6 | -1,631 | 62,000 | end of day |
-| 2026-10-06 | 6 | -898 | 61,101 | end of day |
-| 2026-10-07 | 6 | -1,136 | 59,965 | end of day |
-| 2026-10-08 | 5 | 3,338 | 63,303 | end of day |
-| 2026-10-09 | 4 | 2,089 | 65,392 | end of day |
-| 2026-10-12 | 5 | 2,894 | 68,286 | end of day |
-| 2026-10-13 | 6 | 2,129 | 70,415 | end of day |
-| 2026-10-14 | 4 | 1,774 | 72,190 | end of day |
-| 2026-10-15 | 5 | 161 | 72,351 | end of day |
-| 2026-10-16 | 4 | -3,087 | 69,264 | daily loss limit hit (-2796) |
-| 2026-10-19 | 6 | -2,274 | 66,990 | end of day |
-| 2026-10-21 | 4 | -2,823 | 64,168 | daily loss limit hit (-2621) |
-| 2026-10-22 | 6 | -2,865 | 61,302 | daily loss limit hit (-2533) |
-| 2026-10-23 | 6 | 380 | 61,682 | end of day |
-| 2026-10-26 | 6 | -2,738 | 58,944 | daily loss limit hit (-2504) |
-| 2026-10-27 | 6 | -1,020 | 57,924 | end of day |
-| 2026-10-28 | 6 | -2,568 | 55,357 | daily loss limit hit (-2525) |
-| 2026-10-29 | 6 | 3,436 | 58,793 | end of data |
+| 2026-08-04 | 0 | 0 | 100,000 | no setup today: no stock gapped up > 0.75% |
+| 2026-08-05 | 0 | 0 | 100,000 | no setup today: NIFTY opened +0.22% (needs <= +0.00%) |
+| 2026-08-06 | 0 | 0 | 100,000 | no setup today: NIFTY opened +0.03% (needs <= +0.00%) |
+| 2026-08-07 | 0 | 0 | 100,000 | no setup today: no stock gapped up > 0.75% |
+| 2026-08-10 | 0 | 0 | 100,000 | no setup today: NIFTY opened +0.05% (needs <= +0.00%) |
+| 2026-08-11 | 2 | 6,096 | 106,096 | end of day |
+| 2026-08-12 | 0 | 0 | 106,096 | no setup today: NIFTY opened +0.00% (needs <= +0.00%) |
+| 2026-08-13 | 0 | 0 | 106,096 | no setup today: gaps filled before entry |
+| 2026-08-14 | 0 | 0 | 106,096 | no setup today: no stock gapped up > 0.75% |
+| 2026-08-17 | 0 | 0 | 106,096 | no setup today: no stock gapped up > 0.75% |
+| 2026-08-18 | 0 | 0 | 106,096 | no setup today: no stock gapped up > 0.75% |
+| 2026-08-19 | 0 | 0 | 106,096 | no setup today: NIFTY opened +0.03% (needs <= +0.00%) |
+| 2026-08-20 | 0 | 0 | 106,096 | no setup today: NIFTY opened +0.61% (needs <= +0.00%) |
+| 2026-08-21 | 0 | 0 | 106,096 | no setup today: NIFTY opened +0.21% (needs <= +0.00%) |
+| 2026-08-24 | 0 | 0 | 106,096 | no setup today: NIFTY opened +0.14% (needs <= +0.00%) |
+| 2026-08-25 | 1 | 1,139 | 107,235 | end of day |
+| 2026-08-26 | 0 | 0 | 107,235 | no setup today: NIFTY opened +0.03% (needs <= +0.00%) |
+| 2026-08-27 | 0 | 0 | 107,235 | no setup today: NIFTY opened +0.29% (needs <= +0.00%) |
+| 2026-08-28 | 0 | 0 | 107,235 | no setup today: NIFTY opened +0.16% (needs <= +0.00%) |
+| 2026-08-31 | 0 | 0 | 107,235 | no setup today: no stock gapped up > 0.75% |
+| 2026-09-01 | 4 | 464 | 107,699 | end of day |
+| 2026-09-02 | 1 | -2,997 | 104,702 | all positions stopped out |
+| 2026-09-03 | 0 | 0 | 104,702 | no setup today: NIFTY opened +0.35% (needs <= +0.00%) |
+| 2026-09-04 | 0 | 0 | 104,702 | no setup today: NIFTY opened +0.18% (needs <= +0.00%) |
+| 2026-09-07 | 0 | 0 | 104,702 | no setup today: no stock gapped up > 0.75% |
+| 2026-09-08 | 2 | -1,354 | 103,347 | end of day |
+| 2026-09-09 | 1 | 3,061 | 106,408 | end of day |
+| 2026-09-10 | 0 | 0 | 106,408 | no setup today: NIFTY opened +0.06% (needs <= +0.00%) |
+| 2026-09-11 | 1 | 7,529 | 113,937 | end of day |
+| 2026-09-15 | 0 | 0 | 113,937 | no setup today: NIFTY opened +0.76% (needs <= +0.00%) |
+| 2026-09-16 | 0 | 0 | 113,937 | no setup today: NIFTY opened +0.36% (needs <= +0.00%) |
+| 2026-09-17 | 1 | -1,593 | 112,345 | end of day |
+| 2026-09-18 | 0 | 0 | 112,345 | no setup today: NIFTY opened +0.28% (needs <= +0.00%) |
+| 2026-09-21 | 2 | -4,913 | 107,432 | end of day |
+| 2026-09-22 | 0 | 0 | 107,432 | no setup today: NIFTY opened +0.17% (needs <= +0.00%) |
+| 2026-09-23 | 0 | 0 | 107,432 | no setup today: NIFTY opened +0.10% (needs <= +0.00%) |
+| 2026-09-24 | 0 | 0 | 107,432 | no setup today: no stock gapped up > 0.75% |
+| 2026-09-25 | 0 | 0 | 107,432 | no setup today: no stock gapped up > 0.75% |
+| 2026-09-28 | 1 | -2,987 | 104,445 | all positions stopped out |
+| 2026-09-29 | 2 | -1,985 | 102,460 | end of day |
+| 2026-09-30 | 4 | 786 | 103,245 | end of day |
+| 2026-10-01 | 4 | -4,635 | 98,611 | end of day |
+| 2026-10-05 | 0 | 0 | 98,611 | no setup today: NIFTY opened +0.49% (needs <= +0.00%) |
+| 2026-10-06 | 0 | 0 | 98,611 | no setup today: NIFTY opened +0.21% (needs <= +0.00%) |
+| 2026-10-07 | 0 | 0 | 98,611 | no setup today: no stock gapped up > 0.75% |
+| 2026-10-08 | 1 | 6,392 | 105,002 | end of day |
+| 2026-10-09 | 0 | 0 | 105,002 | no setup today: NIFTY opened +0.38% (needs <= +0.00%) |
+| 2026-10-12 | 0 | 0 | 105,002 | no setup today: NIFTY opened +0.32% (needs <= +0.00%) |
+| 2026-10-13 | 0 | 0 | 105,002 | no setup today: NIFTY opened +0.02% (needs <= +0.00%) |
+| 2026-10-14 | 1 | -2,910 | 102,093 | all positions stopped out |
+| 2026-10-15 | 0 | 0 | 102,093 | no setup today: NIFTY opened +0.21% (needs <= +0.00%) |
+| 2026-10-16 | 0 | 0 | 102,093 | no setup today: NIFTY opened +0.25% (needs <= +0.00%) |
+| 2026-10-19 | 0 | 0 | 102,093 | no setup today: NIFTY opened +0.02% (needs <= +0.00%) |
+| 2026-10-21 | 0 | 0 | 102,093 | no setup today: NIFTY opened +0.56% (needs <= +0.00%) |
+| 2026-10-22 | 1 | 2,116 | 104,209 | end of day |
+| 2026-10-23 | 0 | 0 | 104,209 | no setup today: NIFTY opened +0.24% (needs <= +0.00%) |
+| 2026-10-26 | 2 | -3,103 | 101,106 | end of day |
+| 2026-10-27 | 1 | -2,813 | 98,294 | all positions stopped out |
+| 2026-10-28 | 1 | 3,143 | 101,437 | end of day |
+| 2026-10-29 | 4 | -1,961 | 99,476 | end of day |
+
+_Past results do not guarantee future results. Paper trading only._
