@@ -1,0 +1,33 @@
+name: Intraday paper trader
+
+on:
+  schedule:
+    # GitHub cron is UTC. 03:35 UTC = 09:05 IST (pre-market prep), Mon-Fri.
+    - cron: "35 3 * * 1-5"
+    # Backup starts every 30 min until 15:00 IST. If a run is already active they queue
+    # and simply resume from saved state, so a delayed/dropped run never loses the day.
+    - cron: "0,30 4-9 * * 1-5"
+  workflow_dispatch: {}
+
+concurrency:
+  group: trader
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  trade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Trade
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: python -m agent.main
