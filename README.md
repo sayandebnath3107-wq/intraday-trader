@@ -30,6 +30,13 @@ The P&L includes real charges (brokerage, STT, exchange, SEBI, stamp duty, GST) 
 - The rules were picked using **2016-2023 only**, then checked on **2024-2026**. They were profitable
   in 10 of 11 years. 2022 was slightly negative, and the most recent 3 months were about break-even.
 
+## Watching it live
+- **Scorecard:** `REPORT.md` has a "Today (live)" section with open positions, prices and day P&L. It refreshes
+  every 5 minutes while the agent holds positions, and every 15 minutes otherwise.
+- **Minute-by-minute:** in the Actions tab, open the running "Intraday paper trader" (yellow dot), then the
+  `trade` job, then the **Trade** step. Each minute shows the time, day P&L and every open position.
+- **Phone alerts:** the ntfy app sends a notification at each buy, sell and day-end result (see setup below).
+
 ## Links
 - `REPORT.md`: live scorecard (updated every trading day)
 - `BACKTEST.md`: how the strategy did historically

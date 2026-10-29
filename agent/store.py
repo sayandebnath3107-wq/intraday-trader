@@ -81,7 +81,8 @@ def write_report(state):
         f"| Max drawdown | Rs {dd:,.0f} |",
         f"| Total trades | {len(trades)} |",
         f"| Win rate | {100 * sum(float(t['net']) > 0 for t in trades) / len(trades) if trades else 0:.0f}% |",
-        "", "## Daily results", "", "| Date | Trades | Net P&L | Equity | Note |", "|---|---|---|---|---|",
+    ] + _live_section(state) + [
+        "## Daily results", "", "| Date | Trades | Net P&L | Equity | Note |", "|---|---|---|---|---|",
     ]
     for d in reversed(days):
         lines.append(f"| {d['date']} | {d['trades']} | {float(d['net_pnl']):,.0f} | {float(d['equity']):,.0f} | {d['halt_reason']} |")
@@ -92,6 +93,24 @@ def write_report(state):
                      f"{float(t['net']):,.0f} | {t['exit_reason']} |")
     lines += ["", "_Paper trading with simulated fills on free, slightly delayed data. Not investment advice._"]
     REPORT.write_text("\n".join(lines) + "\n")
+
+
+def _live_section(state):
+    d = state.get("day")
+    if not d or d.get("finalized"):
+        return [""]
+    live = d.get("live", {})
+    out = ["", f"## Today {d['date']} (live, updated {live.get('time', '--:--')} IST)", "",
+           f"**Day P&L: Rs {live.get('total', d['realized']):+,.0f}** (booked Rs {d['realized']:+,.0f}, "
+           f"open Rs {live.get('unrealized', 0):+,.0f}) | Status: {d['halt_reason'] or ('holding' if d['positions'] else 'waiting for 09:16 decision')}", ""]
+    if d["positions"]:
+        out += ["| Stock | Side | Qty | Entry | Last | Stop | Open P&L |", "|---|---|---|---|---|---|---|"]
+        for sym, p in d["positions"].items():
+            last = live.get("last", {}).get(sym, p["entry"])
+            out.append(f"| {sym} | {'LONG' if p['side'] > 0 else 'SHORT'} | {p['qty']} | {p['entry']} | {last} | "
+                       f"{p['stop']} | {(last - p['entry']) * p['side'] * p['qty']:+,.0f} |")
+        out.append("")
+    return out + [""]
 
 
 def commit(message):

@@ -155,8 +155,18 @@ def run():
             continue
 
         eng.step(upto, fine, quotes, opens, index_open)
-        if dirty or _time.time() - last_commit > 900:
+        live = {"time": now.strftime("%H:%M"), "realized": day["realized"],
+                "unrealized": round(eng.broker.unrealized(quotes), 2),
+                "last": {s: round(quotes[s], 2) for s in eng.broker.positions if s in quotes}}
+        live["total"] = round(live["realized"] + live["unrealized"], 2)
+        day["live"] = live
+        held = ", ".join(f"{s} {p['qty']}@{p['entry']}->{live['last'].get(s, '?')}" for s, p in eng.broker.positions.items())
+        log.info("%s | day P&L Rs %+.0f (booked %+.0f) | open: %s | %s", live["time"], live["total"],
+                 live["realized"], held or "none", day["halt_reason"] or "watching")
+        every = 300 if eng.broker.positions else 900  # refresh REPORT.md every 5 min while holding
+        if dirty or _time.time() - last_commit > every:
             store.save(state)
+            store.write_report(state)
             store.commit(f"{day['date']} {','.join(dirty) or 'checkpoint'} pnl {day['realized']:+.0f}")
             dirty.clear()
             last_commit = _time.time()
