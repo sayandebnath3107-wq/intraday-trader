@@ -1,0 +1,28 @@
+name: Fetch research data
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python -m research.fetch_data
+      - name: Save to research-data branch
+        run: |
+          git config user.name trading-agent
+          git config user.email agent@users.noreply.github.com
+          git checkout -B research-data
+          git add -f data/*.csv.gz
+          git commit -m "research data $(date -u +%F)"
+          git push -f origin research-data
