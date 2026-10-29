@@ -2,7 +2,9 @@ name: Intraday paper trader
 
 on:
   schedule:
-    # GitHub cron is UTC. 03:35 UTC = 09:05 IST (pre-market prep), Mon-Fri.
+    # GitHub cron is UTC. 03:20 UTC = 08:50 IST and 03:35 UTC = 09:05 IST (two tries: GitHub
+    # sometimes starts scheduled runs late, and the entry decision happens at 09:16), Mon-Fri.
+    - cron: "20 3 * * 1-5"
     - cron: "35 3 * * 1-5"
     # Backup starts every 30 min until 15:00 IST. If a run is already active they queue
     # and simply resume from saved state, so a delayed/dropped run never loses the day.

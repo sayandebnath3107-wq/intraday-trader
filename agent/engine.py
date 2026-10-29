@@ -8,11 +8,11 @@ import pandas as pd
 
 from . import config as C
 from .broker import PaperBroker
-from .strategy import market_bias, scan
+from .strategy import pick
 
 
 def new_day(date, ctx):
-    return {"date": date.isoformat(), "realized": 0.0, "peak": 0.0, "target_hit": False,
+    return {"date": date.isoformat(), "realized": 0.0, "peak": 0.0, "entered": False,
             "halted": False, "halt_reason": "", "traded": [], "n_trades": 0, "positions": {},
             "ctx": ctx, "finalized": False}
 
@@ -44,42 +44,28 @@ class Engine:
     def pnl(self, marks):
         return self.day["realized"] + self.broker.unrealized(marks)
 
-    # ---- position management: walk new bars in order -------------------------
+    # ---- stop-loss checks: walk new bars in order ------------------------------
     def _manage(self, fine, now):
         for sym, p in list(self.broker.positions.items()):
             df = fine.get(sym)
             if df is None:
                 continue
-            new = df[df.index > pd.Timestamp(p["checked_until"])]
-            for ts, bar in new.iterrows():
-                side, r = p["side"], p["risk"]
-                hit_stop = bar["low"] <= p["stop"] if side > 0 else bar["high"] >= p["stop"]
-                if hit_stop:  # gap through the stop fills at the open
+            for ts, bar in df[df.index > pd.Timestamp(p["checked_until"])].iterrows():
+                side = p["side"]
+                if (bar["low"] <= p["stop"]) if side > 0 else (bar["high"] >= p["stop"]):
                     px = min(p["stop"], bar["open"]) if side > 0 else max(p["stop"], bar["open"])
-                    self._close(sym, px, now, "stop")
-                    break
-                hit_tgt = bar["high"] >= p["target"] if side > 0 else bar["low"] <= p["target"]
-                if hit_tgt:
-                    px = max(p["target"], bar["open"]) if side > 0 else min(p["target"], bar["open"])
-                    self._close(sym, px, now, "target")
+                    self._close(sym, px, now, "stop-loss")
                     break
                 p["best"] = max(p["best"], bar["high"]) if side > 0 else min(p["best"], bar["low"])
-                gain = (p["best"] - p["entry"]) * side
-                if gain >= C.TRAIL_START_R * r:            # lock breakeven (+ costs)
-                    be = p["entry"] + side * 0.1 * r
-                    p["stop"] = max(p["stop"], be) if side > 0 else min(p["stop"], be)
-                if gain >= (C.TRAIL_START_R + 0.5) * r:    # trail behind the best price
-                    tr = p["best"] - side * C.TRAIL_GAP_R * r
-                    p["stop"] = max(p["stop"], tr) if side > 0 else min(p["stop"], tr)
-                p["stop"] = round(p["stop"], 2)
                 p["checked_until"] = ts.isoformat()
 
     # ---- one tick --------------------------------------------------------------
-    def step(self, now, fine, bars5, quotes, index5):
-        """fine/bars5: {sym: today's COMPLETED bars}; quotes: {sym: price we could trade at now}."""
+    def step(self, now, fine, quotes, opens, index_open):
+        """fine: {sym: today's COMPLETED bars}; quotes: {sym: price we could trade at now};
+        opens: {sym: today's 09:15 opening price}; index_open: NIFTY's opening price."""
         d = self.day
         self._manage(fine, now)
-        marks = {s: quotes.get(s) or fine[s]["close"].iloc[-1] for s in fine if len(fine[s])}
+        marks = {s: quotes[s] for s in quotes}
         pnl = self.pnl(marks)
         d["peak"] = round(max(d["peak"], pnl), 2)
 
@@ -91,47 +77,44 @@ class Engine:
             self.flatten(now, marks, "daily loss limit")
             self._halt(f"daily loss limit hit ({pnl:.0f})")
             return
-        if pnl >= C.DAILY_TARGET and not d["target_hit"]:
-            d["target_hit"] = True
-            self.on_event("target", {"pnl": round(pnl, 2)})
-        if d["target_hit"]:
-            if pnl < C.PROFIT_LOCK_FRACTION * d["peak"] or not self.broker.positions:
-                self.flatten(now, marks, "profit lock")
-                self._halt(f"daily target reached, locked {self.day['realized']:.0f}")
+        if d["halted"] and not self.broker.positions:
             return
-        if d["halted"]:
+        if d["entered"] or now.time() < C.ENTRY_START:
+            if d["entered"] and not self.broker.positions and not d["halted"]:
+                self._halt("all positions stopped out" if d["n_trades"] else "no setup today")
+            return
+        if now.time() > C.ENTRY_END:
+            d["entered"] = True
+            self._halt("entry window missed")
             return
 
-        # ---- new entries ----------------------------------------------------------
-        or_end = (pd.Timestamp.combine(now.date(), C.MARKET_OPEN) +
-                  pd.Timedelta(minutes=C.OPENING_RANGE_MINUTES)).time()
-        if not (or_end <= now.time() <= C.LAST_ENTRY):
-            return
+        # ---- the one entry decision of the day -----------------------------------
         ctx = d["ctx"]
-        bias = market_bias(index5, ctx.get("global_score", 0), ctx.get("market_news_score", 0))
-        skip = set(d["traded"]) | set(self.broker.positions)
-        vix_cut = 0.5 if (ctx.get("vix") or 0) > C.HIGH_VIX else 1.0
-        exposure = sum(p["entry"] * p["qty"] for p in self.broker.positions.values())
-        for sig in scan(bars5, {"atr": ctx["atr"], "news": ctx.get("stock_news", {})}, bias, skip):
-            if (len(self.broker.positions) >= C.MAX_OPEN_POSITIONS or d["n_trades"] >= C.MAX_TRADES_PER_DAY):
-                break
-            price = quotes.get(sig.symbol)
-            if not price:
+        pc = ctx["prev_close"]
+        if index_open is None or not pc.get(C.INDEX):
+            return  # wait for NIFTY's first bar
+        index_gap = index_open / pc[C.INDEX] - 1
+        d["index_gap"] = round(index_gap, 5)
+        cands = pick(opens, pc, index_gap)
+        d["entered"] = True
+        if not cands:
+            why = (f"NIFTY opened {index_gap:+.2%} (needs <= {C.INDEX_GAP_MAX:+.2%})"
+                   if index_gap > C.INDEX_GAP_MAX else f"no stock gapped up > {C.GAP_MIN:.2%}")
+            self._halt(f"no setup today: {why}")
+            return
+        notional = min(self.equity * C.LEVERAGE / len(cands), self.equity * C.MAX_POSITION_X)
+        for sym, gap in cands:
+            price = quotes.get(sym)
+            if not price or price <= pc[sym]:  # gap already fully filled before we could enter
                 continue
-            dist = (price - sig.stop) * sig.side
-            if dist <= 0 or (sig.target - price) * sig.side <= dist:  # moved too far, R:R now poor
-                continue
-            risk_amt = min(self.equity * C.RISK_PER_TRADE * vix_cut, C.MAX_DAILY_LOSS + pnl)
-            qty = math.floor(risk_amt / dist)
-            per_pos_cap = self.equity * C.LEVERAGE / C.MAX_OPEN_POSITIONS
-            room = self.equity * C.LEVERAGE - exposure
-            qty = min(qty, math.floor(per_pos_cap / price), math.floor(room / price))
+            qty = math.floor(notional / price)
             if qty < 1:
                 continue
-            last_bar = fine[sig.symbol].index[-1].isoformat()
-            pos = self.broker.open(sig.symbol, sig.side, qty, price, sig.stop, sig.target, now,
-                                   sig.reason, last_bar)
-            exposure += pos["entry"] * qty
-            d["traded"].append(sig.symbol)
+            last_bar = fine[sym].index[-1].isoformat() if len(fine.get(sym, [])) else now.isoformat()
+            pos = self.broker.open(sym, -1, qty, price, price * (1 + C.STOP_PCT), 0.0, now,
+                                   f"gap {gap:+.2%}, NIFTY gap {index_gap:+.2%}", last_bar)
+            d["traded"].append(sym)
             d["n_trades"] += 1
-            self.on_event("open", {"symbol": sig.symbol, **pos})
+            self.on_event("open", {"symbol": sym, **pos})
+        if not self.broker.positions:
+            self._halt("no setup today: gaps filled before entry")

@@ -6,36 +6,29 @@ IST = ZoneInfo("Asia/Kolkata")
 
 # ---- Money & goal -----------------------------------------------------------
 STARTING_CAPITAL = 100_000          # demo money (Rs)
-DAILY_TARGET = 5_000                # once day P&L reaches this, stop new entries and lock profit
-PROFIT_LOCK_FRACTION = 0.8          # after target, exit everything if P&L falls below 80% of the day's peak
-MAX_DAILY_LOSS = 2_500              # hard stop for the day (Rs). Protects the capital.
+DAILY_TARGET = 5_000                # the goal we measure against (not a cap: winners run to the close)
+MAX_DAILY_LOSS = 7_000              # backstop only; the 1% stops normally cap a day near -Rs 5,500
 MAX_TRADING_DAYS = 60               # paper-trading run length
 
-# ---- Risk & sizing ----------------------------------------------------------
+# ---- Strategy: "Gap Fade" ----------------------------------------------------
+# On days NIFTY opens flat/down, stocks that still open >= 0.75% above yesterday's close
+# tend to give back part of that gap during the day. Short them, buy back at 15:10.
+# 10-year research (2016-2026): see BACKTEST.md.
+GAP_MIN = 0.0075                    # stock open vs previous close
+INDEX_GAP_MAX = 0.0                 # NIFTY open vs previous close must be <= this
+MAX_POSITIONS = 4                   # biggest gaps first
 LEVERAGE = 5.0                      # intraday (MIS) margin: ~20% => 5x exposure
-RISK_PER_TRADE = 0.012              # risk 1.2% of equity between entry and stop
-MAX_OPEN_POSITIONS = 4
-MAX_TRADES_PER_DAY = 6
-HIGH_VIX = 22.0                     # India VIX above this => half position size
+MAX_POSITION_X = 2.5                # one stock never gets more than 2.5x equity notional
+STOP_PCT = 0.01                     # stop-loss 1% above the short entry
 
 # ---- Session timing (IST) ---------------------------------------------------
 MARKET_OPEN = time(9, 15)
-OPENING_RANGE_MINUTES = 15          # 09:15-09:30 opening range
-LAST_ENTRY = time(14, 30)
+ENTRY_START = time(9, 16)
+ENTRY_END = time(10, 0)             # if the run starts later than this, the day is skipped
 SQUARE_OFF = time(15, 10)           # brokers auto-square MIS ~15:20; we exit earlier
 MARKET_CLOSE = time(15, 30)
 POLL_SECONDS = 60
 MAX_RUNTIME_MINUTES = 340           # GitHub job limit is 360; exit cleanly before it
-
-# ---- Strategy (Opening Range Breakout + VWAP + volume + market/news filters) --
-MIN_REL_VOLUME = 1.3                # breakout bar volume vs average bar volume so far today
-MAX_OR_WIDTH_ATR = 0.9              # skip if opening range too wide (stop would be too far)
-STOP_ATR_MULT = 0.6
-MIN_STOP_PCT = 0.0035               # stop at least 0.35% away (avoid noise stop-outs)
-REWARD_RISK = 2.0
-TRAIL_START_R = 1.0                 # at +1R move stop to breakeven
-TRAIL_GAP_R = 1.0                   # beyond +1.5R trail 1R behind the best price
-MAX_EXTENSION_ATR = 0.5             # don't chase: price must be within 0.5 ATR of the breakout level
 
 # ---- Costs (Zerodha-style intraday equity) ----------------------------------
 BROKERAGE_PCT = 0.0003

@@ -11,7 +11,7 @@ import pandas as pd
 from . import config as C
 from . import data, news, notify, store
 from .engine import Engine, new_day
-from .strategy import prior_atr, today_only
+from .strategy import prev_close, today_only
 
 log = logging.getLogger("agent")
 
@@ -22,31 +22,30 @@ def at(day, t):
 
 def prepare_day(today):
     log.info("pre-market prep for %s", today)
-    dly = data.daily(list(C.UNIVERSE), period="6mo")
-    atrs = {s: v for s, df in dly.items() if (v := prior_atr(df, today))}
+    dly = data.daily(list(C.UNIVERSE) + [C.INDEX], period="1mo")
+    pcs = {s: v for s, df in dly.items() if (v := prev_close(df, today))}
     try:
-        ctx = news.premarket_context(today)
+        ctx = news.premarket_context(today)  # logged for context; the strategy itself is price-based
     except Exception as e:
         log.warning("news/global prep failed: %s", e)
         ctx = {"global_score": 0.0, "market_news_score": 0.0, "stock_news": {}, "vix": None}
-    ctx["atr"] = {s: round(v, 2) for s, v in atrs.items()}
-    log.info("global=%s vix=%s news=%s atr for %d stocks", ctx["global_score"], ctx["vix"],
-             ctx["market_news_score"], len(atrs))
+    ctx["prev_close"] = {s: round(v, 2) for s, v in pcs.items()}
+    log.info("global=%s vix=%s news=%s prev close for %d symbols", ctx["global_score"], ctx["vix"],
+             ctx["market_news_score"], len(pcs))
     return ctx
 
 
 def snapshot(today, upto):
     """Fetch 1-min bars and build what the engine needs, as of time `upto`."""
     frames = data.intraday(list(C.UNIVERSE) + [C.INDEX], interval="1m", period="1d")
-    frames = {s: df[df.index <= upto] for s, df in frames.items()}
-    frames = {s: today_only(df, today) for s, df in frames.items()}
+    frames = {s: today_only(df[df.index <= upto], today) for s, df in frames.items()}
     frames = {s: df for s, df in frames.items() if len(df)}
+    first = lambda df: float(df["open"].iloc[0]) if df.index[0].time() == C.MARKET_OPEN else None
     idx = frames.pop(C.INDEX, None)
+    opens = {s: v for s, df in frames.items() if (v := first(df))}
     fine = {s: data.completed(df, upto, 1) for s, df in frames.items()}
-    bars5 = {s: data.completed(data.resample_5m(df), upto, 5) for s, df in frames.items()}
     quotes = {s: float(df["close"].iloc[-1]) for s, df in frames.items()}
-    idx5 = data.completed(data.resample_5m(idx), upto, 5) if idx is not None else None
-    return idx, fine, bars5, quotes, idx5
+    return (first(idx) if idx is not None else None), fine, quotes, opens
 
 
 def finalize(state, eng):
@@ -107,6 +106,9 @@ def run():
         return
 
     if not state["day"] or state["day"]["date"] != today.isoformat():
+        if started > at(today, C.ENTRY_END):
+            log.info("started after the %s entry window; today is skipped (not counted)", C.ENTRY_END)
+            return
         state["day"] = new_day(today, prepare_day(today))
         store.save(state)
     day = state["day"]
@@ -116,12 +118,12 @@ def run():
         dirty.append(kind)
         if kind == "open":
             notify.send(f"{'BUY' if payload['side'] > 0 else 'SELL'} {payload['symbol']} x{payload['qty']}",
-                        f"@ {payload['entry']} stop {payload['stop']} target {payload['target']}")
+                        f"@ {payload['entry']} stop {payload['stop']} | {payload['reason']}")
         elif kind == "close":
             store.log_trade(day["date"], payload)
             notify.send(f"Closed {payload['symbol']}: Rs {payload['net']:+,.0f}",
                         f"{payload['exit_reason']} | day P&L Rs {day['realized']:+,.0f}")
-        elif kind in ("halt", "target"):
+        elif kind == "halt":
             notify.send(f"Agent: {kind}", str(payload))
 
     eng = Engine(state["equity"], day, on_event)
@@ -139,8 +141,8 @@ def run():
             continue
 
         upto = min(now, at(today, C.SQUARE_OFF))
-        idx, fine, bars5, quotes, idx5 = snapshot(today, pd.Timestamp(upto))
-        if idx is None or not fine:
+        index_open, fine, quotes, opens = snapshot(today, pd.Timestamp(upto))
+        if not fine:
             if now > at(today, C.MARKET_OPEN) + timedelta(minutes=25):
                 if not eng.broker.positions and not day["n_trades"]:
                     log.info("no market data today -> exchange holiday; not counted")
@@ -152,7 +154,7 @@ def run():
             _time.sleep(C.POLL_SECONDS)
             continue
 
-        eng.step(upto, fine, bars5, quotes, idx5)
+        eng.step(upto, fine, quotes, opens, index_open)
         if dirty or _time.time() - last_commit > 900:
             store.save(state)
             store.commit(f"{day['date']} {','.join(dirty) or 'checkpoint'} pnl {day['realized']:+.0f}")
