@@ -1,6 +1,6 @@
 {
- "equity": 100000,
- "days_done": 0,
+ "equity": 100000.0,
+ "days_done": 1,
  "day": {
   "date": "2026-10-30",
   "realized": 0.0,
@@ -338,7 +338,7 @@
     "^NSEI": 22936.75
    }
   },
-  "finalized": false,
+  "finalized": true,
   "index_gap": 0.00121,
   "live": {
    "time": "09:16",

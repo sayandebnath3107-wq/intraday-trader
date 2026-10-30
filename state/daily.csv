@@ -1,0 +1,2 @@
+date,trades,net_pnl,equity,hit_target,halt_reason
+2026-10-30,0,0.0,100000.0,False,no setup today: NIFTY opened +0.12% (needs <= +0.00%)
