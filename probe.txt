@@ -1,0 +1,17 @@
+GET https://www.nseindia.com 403 370
+GET https://www.nseindia.com/market-data/pre-open-market-cm-and-emerge-market 200 164044
+API NIFTY 200 33
+ top-level keys: ['data', 'msg']
+ rows: 0
+  msg : "No Data Found"
+API ALL 200 2144968
+ top-level keys: ['declines', 'unchanged', 'data', 'advances', 'timestamp', 'totalTradedValue', 'totalmarketcap', 'totalTradedVolume']
+ rows: 2143
+ first row: {"metadata": {"symbol": "BPLPHARMA", "identifier": "BPLPHARMAEQN", "series": "EQ", "purpose": null, "lastPrice": 2277.9, "change": 365.3, "pChange": 19.1, "previousClose": 1912.6, "finalQuantity": 6328, "totalTurnover": 14414551, "marketCap": "-", "yearHigh": 2277.6, "yearLow": 1125.7, "iep": 2277.9}, "detail": {"preOpenMarket": {"preopen": [{"price": 2102.5, "buyQty": 300, "sellQty": 0}, {"price": 2199, "buyQty": 1, "sellQty": 0}, {"price": 2200, "buyQty": 20, "sellQty": 0}, {"price": 2201, "buyQty": 100, "sellQty": 0}, {"price": 2268, "buyQty": 40, "sellQty": 0}, {"price": 2277.9, "buyQty": 0, "sellQty": 45, "iep": true}, {"price": 2279, "buyQty": 0, "sellQty": 620}, {"price": 2280, "buyQty": 0, "sellQty": 1}, {"price": 2282, "buyQty": 0, "sellQty": 1}, {"price": 2285, "buyQty": 0, "sellQty": 1000}], "ato": {"totalBuyQuantity": 0, "totalSellQuantity": 0}, "IEP": 2277.9, "totalTradedVolume": 6328, "finalPrice": 2277.9, "finalQuantity": 6328, "lastUpdateTime": "30-Oct-2026 09:09:08", "totalSellQuantity": 4406, "totalBuyQuantity": 2158, "atoBuyQty": 0, "atoSellQty": 0, "Change": 365.3, "perChange": 19.1, "prevClose": 1912.6}}}
+  declines : 845
+  unchanged : 304
+  advances : 994
+  timestamp : "30-Oct-2026 09:09:07"
+  totalTradedValue : 4705589304
+  totalmarketcap : 210008933741974.12
+  totalTradedVolume : 27250053
