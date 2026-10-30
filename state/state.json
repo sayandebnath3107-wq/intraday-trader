@@ -1,0 +1,351 @@
+{
+ "equity": 100000,
+ "days_done": 0,
+ "day": {
+  "date": "2026-10-30",
+  "realized": 0.0,
+  "peak": 0.0,
+  "entered": true,
+  "halted": true,
+  "halt_reason": "no setup today: NIFTY opened +0.12% (needs <= +0.00%)",
+  "traded": [],
+  "n_trades": 0,
+  "positions": {},
+  "ctx": {
+   "global_score": -0.85,
+   "global_detail": {
+    "^GSPC": -0.3,
+    "^IXIC": -1.38,
+    "^N225": 1.1,
+    "^HSI": -0.59,
+    "^FTSE": 0.26,
+    "CL=F": 0.64,
+    "USDINR=X": 0.03
+   },
+   "vix": 15.119999885559082,
+   "market_news_score": 0.232,
+   "market_headlines": [
+    "Trent net profit up 25% despite cost pressures and stiff competition",
+    "Oil Price Today (October 30): Crude oil jumps to $118 as Trump weighs fresh attacks after midterm. What are experts saying?",
+    "Godrej consumer profit rises 14%, weighs calibrated price hikes to offset inflation",
+    "Positive Breakout: These 7 stocks cross above their 200 DMAs",
+    "Amazon cloud business accelerates but shares drop on profit miss",
+    "Yen steady before BOJ, AI jitters drive Treasury rally, weigh on dollar",
+    "Coal India reports 57% rise in net profit to Rs 6,547 crore in Q2",
+    "Amazon burns cash, Intel flags weak PC demand as AI boom's costs ripple across markets",
+    "Weak quarter for Intel sends shivers through cooling chip stocks",
+    "Gold prices edge lower as US inflation data reinforces Fed outlook"
+   ],
+   "stock_news": {
+    "RELIANCE.NS": 0.615,
+    "HDFCBANK.NS": 0.462,
+    "ICICIBANK.NS": 0.5,
+    "INFY.NS": 0.357,
+    "TCS.NS": 0.615,
+    "SBIN.NS": 0.476,
+    "AXISBANK.NS": 0.357,
+    "KOTAKBANK.NS": 0.737,
+    "LT.NS": 0.773,
+    "ITC.NS": 0.125,
+    "BHARTIARTL.NS": 0.267,
+    "HINDUNILVR.NS": 0.423,
+    "BAJFINANCE.NS": -0.222,
+    "MARUTI.NS": 0.375,
+    "SUNPHARMA.NS": 0.533,
+    "TITAN.NS": 0.167,
+    "ULTRACEMCO.NS": 0.4,
+    "ASIANPAINT.NS": 0.703,
+    "HCLTECH.NS": 0.3,
+    "WIPRO.NS": 0.3,
+    "TECHM.NS": 0.562,
+    "NTPC.NS": 0.571,
+    "POWERGRID.NS": 0.696,
+    "ONGC.NS": 0.364,
+    "COALINDIA.NS": 0.71,
+    "TATASTEEL.NS": 0.308,
+    "JSWSTEEL.NS": 0.667,
+    "HINDALCO.NS": 0.5,
+    "ADANIENT.NS": 0.667,
+    "ADANIPORTS.NS": 0.844,
+    "M&M.NS": 0.188,
+    "BAJAJFINSV.NS": 0.222,
+    "INDUSINDBK.NS": 0.308,
+    "DRREDDY.NS": 0.571,
+    "CIPLA.NS": 0.375,
+    "EICHERMOT.NS": 0.1,
+    "HEROMOTOCO.NS": 0.381,
+    "BPCL.NS": 0.375,
+    "GRASIM.NS": 0.364,
+    "NESTLEIND.NS": 0.625,
+    "TRENT.NS": 0.792,
+    "BEL.NS": 0.7
+   },
+   "stock_headlines": {
+    "RELIANCE.NS": [
+     "Reliance Industries Share Price - Live NSE: RELIANCE Stock Price & Chart - Upstox",
+     "Reliance Industries Q2 results 2026 today: Preview, should you buy, sell or hold ahead of earnings? Experts' views - Livemint",
+     "Reliance Industries Ltd. Share Price, Stock Price - NSE/BSE Live - NDTV Profit"
+    ],
+    "HDFCBANK.NS": [
+     "HDFC Bank Limited (HDFCBANK.NS) stock price, news, quote and history - Yahoo Finance Singapore",
+     "HDFC Bank shares recover from fresh 52-week low as buyers step in - BusinessLine",
+     "HDFC Bank Share Price - Live NSE: HDFCBANK Stock Price & Chart - Upstox"
+    ],
+    "ICICIBANK.NS": [
+     "ICICI Bank Limited (IBN) stock price, news, quote and history - Yahoo Finance Singapore",
+     "How to Add Money to US Stocks on Groww with ICICI Bank: A Step-by-Step Guide - Groww",
+     "Buy, Sell Or Hold: ICICI Bank, Hyundai Motor, Trent, Tata Steel, Schaeffler India And L&T Finance \u2014 Ask Profit - NDTV Profit"
+    ],
+    "INFY.NS": [
+     "Infosys Share Price - Live NSE: INFY Stock Price & Chart - Upstox",
+     "Q2 October dividend champions: Infosys, Colgate, HUL, CPCL, Coal India | Big payouts - amount, record date - TradingView",
+     "TCS, HCL, Wipro, Infosys Bleeding: Why Are IT Stocks Down? Check Q1 Result Dates, Preview, Dividend Rewards - Goodreturns"
+    ],
+    "TCS.NS": [
+     "Tata Consultancy Services Limited (TCS.NS) stock price, news, quote and history - Yahoo Finance Australia",
+     "Stock Picks Today: Asian Paints, Trent, TCS, Suzlon Energy, And More On Brokerages' Radar - NDTV Profit",
+     "TCS Share Price Prediction for Tomorrow: 30 Oct 2026 - Univest"
+    ],
+    "SBIN.NS": [
+     "SBI FUNDS MANAGEMENT LTD Share Price - Live NSE: SBIFUNDS Stock Price & Chart - Upstox",
+     "SBI Funds Management Ltd. Share Price Today - SBI Funds Management Ltd. Stock Price Live NSE/BSE - CNBC TV18",
+     "SBI Funds Management Ltd Share Price Today,, SBIFUNDS Share Price NSE, BSE - Business Today"
+    ],
+    "AXISBANK.NS": [
+     "Bank Q4 Result Mixed Bag: IndusInd, IDFC First Rally 4%, Axis Bank Falls 4%: What Investors Must Know - Goodreturns",
+     "Kotak Bank shares gain 30% since April as earnings outlook brightens - The Economic Times",
+     "30th October 2026: Best stocks to buy or sell ft. Raja Venkatraman - Livemint"
+    ],
+    "KOTAKBANK.NS": [
+     "Kotak Bank shares gain 30% since April as earnings outlook brightens - The Economic Times",
+     "Kotak Mahindra Bank shares gain over 4%, hit highest level since April 2025; here\u2019s what you should know - Livemint",
+     "Five Stocks To Buy Today, October 30: Dalmia Bharat Sugar, Waaree Energies, Kotak Bank, And More - NDTV Profit"
+    ],
+    "LT.NS": [
+     "Larsen & Toubro climbs Thursday, underperforms market - MarketWatch",
+     "L&T Shares Jump 6% After Q2 Earnings As CLSA Sees 32% Upside - BW Businessworld",
+     "L&T: Nomura retains 'Neutral' with Rs 3,940 target as execution beats fail to offset margin pressure - Moneycontrol.com"
+    ],
+    "ITC.NS": [
+     "Top 20 Shares For Long-Term Investment In India For October 2026 - Samco",
+     "ITC clears 20-day average as ITC stock rises 1.79 percent - ad-hoc-news.de",
+     "30th October 2026: Best stocks to buy or sell ft. Raja Venkatraman - Livemint"
+    ],
+    "BHARTIARTL.NS": [
+     "Airtel's profit falls 26% after Jio's listing: Revenue slips 7% in latest company results; Jio now bigger t... - Bhaskar English",
+     "Reliance Jio Platforms shares vs Bharti Airtel vs Vodafone Idea: Top telecom stock to buy? What experts suggest - Livemint",
+     "Bharti Airtel pays \u20b92.14 lakh penalty for verification violations - scanx.trade"
+    ],
+    "HINDUNILVR.NS": [
+     "Amid near-term headwinds, Street is bullish on Hindustan Unilever - Business Standard",
+     "20% crash in 2026! This FMCG stock is on track for its biggest annual drop in 22 years. Should investors be worried? - Livemint",
+     "HUL shares rise 3% after Q2 results. Jefferies, Nomura cut target price but forecast 29% upside potential - The Economic Times"
+    ],
+    "BAJFINANCE.NS": [
+     "Infobay AI Raises Again: Kacholia, Bajaj Finance on Board - UnlistedZone",
+     "30th October 2026: Best stocks to buy or sell ft. Raja Venkatraman - Livemint",
+     "Vaibhav Vyapaar Ltd Share Price Today,, LOANFRONT Share Price NSE, BSE - Business Today"
+    ],
+    "MARUTI.NS": [
+     "Market wrap: Adani Ports SEZ, Adani Ent, Trent, Maruti Suzuki top gainers and losers on Nifty and Sensex - The Economic Times",
+     "Maruti Suzuki India Ltd (BOM:532500) (Q2 2027) Earnings Call Hig - GuruFocus",
+     "Maruti Suzuki India's EV exports cross 50,000 units since August 2025 - Business Standard"
+    ],
+    "SUNPHARMA.NS": [
+     "Stocks To Watch Today: Dixon Tech, Syrma SGS, Sun Pharma, Wipro, Trent Among Others - NDTV Profit",
+     "Top stocks to watch today: Reliance, Jio Platforms, Trent, BEL, RVNL shares in focus on Friday, 30 Oct | Full list - Livemint",
+     "India's pharma, healthcare deal volumes rise 23% in Q3 2026: Report - Business Standard"
+    ],
+    "TITAN.NS": [
+     "Why Titan International (TWI) shares are falling today - TradingView",
+     "Earnings call transcript: Titan International tops Q3 2026 estimates, shares tumble By Investing.com - Investing.com India",
+     "Titan's ZOYA eyes \u20b9500 crore revenue in FY27, plans to open three stores - Business Standard"
+    ],
+    "ULTRACEMCO.NS": [
+     "Ambuja Cements expects volume growth to outpace industry in H2 - Livemint",
+     "Airtel, ICICI Bank, L&T, Titan, Dee Development among brokerage's top Diwali 2026 picks - Business Today",
+     "Sensex, Nifty rise in early trade on Reliance buying, foreign inflows - The Hindu"
+    ],
+    "ASIANPAINT.NS": [
+     "Stock Picks Today: Asian Paints, Trent, TCS, Suzlon Energy, And More On Brokerages' Radar - NDTV Profit",
+     "Asian Paints Ltd. Stock 12\u2011Month Price Target Cut to INR 2925.06, Implies 28% Upside - TradingView",
+     "Asian Paints Q2 net profit rises 7.5% to Rs 1,068 cr, revenue jumps 17%; margins shrink amid raw material... - Moneycontrol.com"
+    ],
+    "HCLTECH.NS": [
+     "HCL Technologies Share Price - Live NSE: HCLTECH Stock Price & Chart - Upstox",
+     "TCS, Infosys, HCL Tech: Anthropic revenue soars 14-fold in H1 2026 - Can Indian IT stocks benefit from AI boom? - Livemint",
+     "HCL Technologies completes acquisition of Robotiq.ai in Croatia - scanx.trade"
+    ],
+    "WIPRO.NS": [
+     "TCS, HCL, Wipro, Infosys Bleeding: Why Are IT Stocks Down? Check Q1 Result Dates, Preview, Dividend Rewards - Goodreturns",
+     "Wipro completes 20% stake acquisition in FLARRE.AI via subsidiary - scanx.trade",
+     "Top stocks to watch today: Reliance, Jio Platforms, Trent, BEL, RVNL shares in focus on Friday, 30 Oct | Full list - Livemint"
+    ],
+    "TECHM.NS": [
+     "Tech Mahindra slides Thursday, underperforms competitors - MarketWatch",
+     "30th October 2026: Best stocks to buy or sell ft. Raja Venkatraman - Livemint",
+     "Sensex surges 905 pts, Nifty tops 22,900 on heavy buying in banking, FMCG stocks - The Hindu"
+    ],
+    "NTPC.NS": [
+     "Tata Power, NTPC Green, Torrent Power, NTPC, Power Grid, JSW Energy, IEX shares: Check ratings, targets - Business Today",
+     "ACME Solar shares rally 5% after Q2 profit jumps over 100%, signs 400MV agreement with NTPC - The Economic Times",
+     "ACME Solar shares gain 4% after subsidiary signs 400 MW PPA with NTPC - Business Today"
+    ],
+    "POWERGRID.NS": [
+     "Power Grid shares rally over 4% as board fixes record date for first dividend of FY27; check details - Upstox",
+     "Tata Power, NTPC Green, Torrent Power, NTPC, Power Grid, JSW Energy, IEX shares: Check ratings, targets - Business Today",
+     "Top stocks to watch today: Reliance, Jio Platforms, Trent, BEL, RVNL shares in focus on Friday, 30 Oct | Full list - Livemint"
+    ],
+    "ONGC.NS": [
+     "30th October 2026: Best stocks to buy or sell ft. Raja Venkatraman - Livemint",
+     "Kotak Forecasts FY27 Oil Prices At $100 Per Barrel Amid West Asia Crisis - TradingView",
+     "Oil and gas stocks to buy: ONGC vs Oil India shares - Kotak Securities raises FY27 forecast to $100; know preferred pick - Livemint"
+    ],
+    "COALINDIA.NS": [
+     "Coal India Ltd. Stock 12\u2011Month Price Target Cut to INR 460.2, Implies 17% Upside - TradingView",
+     "Coal India Declares Interim Dividend Of Rs 10.25 Per Share For FY27 | Check Record Date - NDTV Profit",
+     "Coal India Q2 Profit Rises 53%, Declares \u20b910.25 Dividend - Sarkaritel.com"
+    ],
+    "TATASTEEL.NS": [
+     "Tata Steel Share Price - Live NSE: TATASTEEL Stock Price & Chart - Upstox",
+     "Diwali stocks 2026: Tata Steel, MCX, IHCL and 8 more to add sparkle to shares portfolio in Samvat 2083 | Full list - Livemint",
+     "Buy, Sell Or Hold: ICICI Bank, Hyundai Motor, Trent, Tata Steel, Schaeffler India And L&T Finance \u2014 Ask Profit - NDTV Profit"
+    ],
+    "JSWSTEEL.NS": [
+     "30th October 2026: Best stocks to buy or sell ft. Raja Venkatraman - Livemint",
+     "JSW Steel JSWSTEEL Lost Share Certificate Notice Oct 2026 - Kalkine India",
+     "Vedanta Iron & Steel Ltd (VISL) Share Price - Business Today"
+    ],
+    "HINDALCO.NS": [
+     "Stock recommendations for 30 October from MarketSmith India - Livemint",
+     "Taking Stock: Markets rebound sharply; Nifty above 22,900, Sensex jumps 905 pts as IT, FMCG, banking stocks shine - TradingView",
+     "30th October 2026: Best stocks to buy or sell ft. Raja Venkatraman - Livemint"
+    ],
+    "ADANIENT.NS": [
+     "Adani Enterprises, Adani Ports, Adani Green, Adani Power: Why Adani stocks are rising today - Business Today",
+     "Best Adani stock to buy after Q2 results 2026? Adani Power vs Adani Ports vs Adani Enterprises \u2014 Experts' views, targets - Livemint",
+     "Adani group stocks rally led by Adani Enterprises, Adani Ports post Q2 show - Business Standard"
+    ],
+    "ADANIPORTS.NS": [
+     "Adani Ports Stock Jumps Over 5% - India Business Trade",
+     "Adani Ports Shares Jump 6.29%; November Futures OI Surges 10.30% After Q2 Results - NiftyTrader",
+     "Adani Ports shares jump 4% after Q2 beat as analysts issue buy calls - BusinessLine"
+    ],
+    "M&M.NS": [
+     "30th October 2026: Best stocks to buy or sell ft. Raja Venkatraman - Livemint",
+     "Mahindra & Mahindra ESOP Share Transfer October 2026 - Kalkine India",
+     "A customer booked a Mahindra XUV700 in 2022 but never received the SUV; four years later, a consumer comm - The Times of India"
+    ],
+    "BAJAJFINSV.NS": [
+     "Vaibhav Vyapaar Ltd Share Price Today,, LOANFRONT Share Price NSE, BSE - Business Today",
+     "Sensex Drops 252 Points, Nifty Closes Below 22,650 as Pharma, Healthcare Stocks Decline - INDIA New England News",
+     "Sensex, Nifty rise in early trade on Reliance buying, foreign inflows - The New Indian Express"
+    ],
+    "INDUSINDBK.NS": [
+     "Bank Q4 Result Mixed Bag: IndusInd, IDFC First Rally 4%, Axis Bank Falls 4%: What Investors Must Know - Goodreturns",
+     "IndusInd Bank pays \u20b9227.08 crore interest on Tier 2 bonds - scanx.trade",
+     "30th October 2026: Best stocks to buy or sell ft. Raja Venkatraman - Livemint"
+    ],
+    "DRREDDY.NS": [
+     "Provision of Rs 13000 cr for BioPharma SHAKTI & 3 Dedicated Chemical Parks is a strategic bet on India\u2019s future - Press Information Bureau",
+     "October 23 earnings call transcript is now available from Dr. Reddy\u2019s (RDY). - Stock Titan",
+     "Laurus Labs appoints Kundan Kumar Jha as Joint Company Secretary - scanx.trade"
+    ],
+    "CIPLA.NS": [
+     "Cipla ESOS ESAR Share Allotment October 2026 - Kalkine India",
+     "30th October 2026: Best stocks to buy or sell ft. Raja Venkatraman - Livemint",
+     "Cipla Limited Earnings Missed Analyst Estimates: Here's What Analysts Are Forecasting Now - Simply Wall St"
+    ],
+    "EICHERMOT.NS": [
+     "Stock recommendations for 30 October from MarketSmith India - Livemint",
+     "30th October 2026: Best stocks to buy or sell ft. Raja Venkatraman - Livemint",
+     "Top stocks to watch today: Reliance, Jio Platforms, Trent, BEL, RVNL shares in focus on Friday, 30 Oct | Full list - Livemint"
+    ],
+    "HEROMOTOCO.NS": [
+     "Hero MotoCorp bets on premiumisation, EVs to sustain growth momentum - The Economic Times",
+     "Hero MotoCorp shares close 4% lower despite 42% profit growth; raw material costs weigh on margins but... - Moneycontrol.com",
+     "Earnings call transcript: Hero MotoCorp Q2 2026 earnings miss EPS, shares slip By Investing.com - Investing.com India"
+    ],
+    "BPCL.NS": [
+     "30th October 2026: Best stocks to buy or sell ft. Raja Venkatraman - Livemint",
+     "BPCL to Invest Additional $1.8 Billion in Mozambique Gas Project - Chemical Industry Digest",
+     "Praj Industries approves up to \u20b9100 crore investment in BPCL JV - scanx.trade"
+    ],
+    "GRASIM.NS": [
+     "TNA Solutions Ltd Share Price - Business Today",
+     "30th October 2026: Best stocks to buy or sell ft. Raja Venkatraman - Livemint",
+     "Grasim stock: New plant adds 50,000 tonnes of capacity - ad-hoc-news.de"
+    ],
+    "NESTLEIND.NS": [
+     "HUL vs Nestle India shares compared: Which FMCG stock to buy post Q2 results: Who wins on profit, revenue and dividend? - TradingView",
+     "HUL vs Nestl\u00e9 India Q2: Faster Growth at Nestl\u00e9, Bigger Profit and a Rs 19 Dividend at HUL - Marksmen Daily",
+     "HUL and Nestl\u00e9 India Post Divergent Q2 Results as Brokerages Split on FMCG Outlook - finance.biggo.com"
+    ],
+    "TRENT.NS": [
+     "Trent shares in focus after strong operational Q2; Nuvama says 'buy' with lower target - CNBC TV18",
+     "Stock Picks Today: Asian Paints, Trent, TCS, Suzlon Energy, And More On Brokerages' Radar - NDTV Profit",
+     "Top stocks to watch today: Reliance, Jio Platforms, Trent, BEL, RVNL shares in focus on Friday, 30 Oct | Full list - Livemint"
+    ],
+    "BEL.NS": [
+     "Earnings To Watch: Bharat Electronics Ltd (NSE:BEL) Q2 2027 -- GF Value Sees 40% Upside - Yahoo Finance",
+     "Top stocks to watch today: Reliance, Jio Platforms, Trent, BEL, RVNL shares in focus on Friday, 30 Oct | Full list - Livemint",
+     "Digilogic Systems Ltd Share Price Today,, Digilogic Systems Ltd Stock Price NSE, BSE - Business Today"
+    ]
+   },
+   "prev_close": {
+    "RELIANCE.NS": 1167.4,
+    "HDFCBANK.NS": 683.3,
+    "ICICIBANK.NS": 1386.6,
+    "INFY.NS": 1146.5,
+    "TCS.NS": 2478.0,
+    "SBIN.NS": 971.9,
+    "AXISBANK.NS": 1225.0,
+    "KOTAKBANK.NS": 459.0,
+    "LT.NS": 3837.1,
+    "ITC.NS": 265.0,
+    "BHARTIARTL.NS": 1972.1,
+    "HINDUNILVR.NS": 1858.2,
+    "BAJFINANCE.NS": 938.9,
+    "MARUTI.NS": 11426.0,
+    "SUNPHARMA.NS": 1757.5,
+    "TITAN.NS": 4434.0,
+    "ULTRACEMCO.NS": 11175.0,
+    "ASIANPAINT.NS": 2302.0,
+    "HCLTECH.NS": 1403.9,
+    "WIPRO.NS": 190.1,
+    "TECHM.NS": 1776.6,
+    "NTPC.NS": 310.5,
+    "POWERGRID.NS": 260.0,
+    "ONGC.NS": 225.79,
+    "COALINDIA.NS": 393.1,
+    "TATASTEEL.NS": 169.46,
+    "JSWSTEEL.NS": 1241.2,
+    "HINDALCO.NS": 886.3,
+    "ADANIENT.NS": 2607.9,
+    "ADANIPORTS.NS": 1872.0,
+    "M&M.NS": 2890.0,
+    "BAJAJFINSV.NS": 1652.4,
+    "INDUSINDBK.NS": 868.0,
+    "DRREDDY.NS": 1345.0,
+    "CIPLA.NS": 1358.0,
+    "EICHERMOT.NS": 7238.0,
+    "HEROMOTOCO.NS": 5105.0,
+    "BPCL.NS": 289.2,
+    "GRASIM.NS": 2900.0,
+    "NESTLEIND.NS": 1168.0,
+    "TRENT.NS": 2861.7,
+    "BEL.NS": 370.0,
+    "^NSEI": 22936.75
+   }
+  },
+  "finalized": false,
+  "index_gap": 0.00121,
+  "live": {
+   "time": "09:16",
+   "realized": 0.0,
+   "unrealized": 0.0,
+   "last": {},
+   "total": 0.0
+  }
+ }
+}
